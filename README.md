@@ -15,6 +15,7 @@ Most coin collectors accumulate their collection for the enjoyment and history o
   * User can upload personal photo or use avatar.
   * User can upload photos of their collection.
   * User can create a wishlist and view current value of items.
+  * Wishlist will access 3rd party api selling those items (ebay).
   * App will be nicely styled.
   * Userwill be able to see value of individual coins in their collection based on values in the coin database.
   * User will be able to see the total value of their collection.
