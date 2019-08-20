@@ -14,6 +14,7 @@ Most coin collectors accumulate their collection for the enjoyment and history o
 ### Stretch:
   * User can upload personal photo or use avatar.
   * User can upload photos of their collection.
+  * Random coin fact will populate on screen load.
   * User can create a wishlist and view current value of items.
   * Wishlist will access 3rd party api selling those items (ebay).
   * App will be nicely styled.
