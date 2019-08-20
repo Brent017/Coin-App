@@ -4,13 +4,13 @@ Coin colleting is not just a hobby, it's an investment.  Coin App contains a dat
 
 
 ## User Story-
-### MVP:
+### 1. MVP:
   *User will be able to login using unique username and hashed password.
   *User will be able to search coin database for a given coin.
   *User will be able to create, read, update and delete information about their personal collection database.
 
 
-### Stretch:
+### 2. Stretch:
   *User (U) can upload personal photo or use avatar.
   *U can upload photos of their collection.
   *U can create a wishlist and view current value of items.
