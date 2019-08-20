@@ -30,6 +30,5 @@ Most coin collectors accumulate their collection for the enjoyment and history o
 |/coins     | POST      | create | Create an item    |
 |/coins/:id | GET       | show   | Show item with :id|
 |/coins/:id/edit| GET   | edit   | Show edit form for item with :id|
-|/coins/:id | PATCH     | update | Update item with :id |
-|/coins/:id | GET       | delete | Show delete form for item with :id|
+|/coins/:id | PUT     | update | Update item with :id |
 |/coins/:id | DELETE    | destroy| Delete item with :id|
