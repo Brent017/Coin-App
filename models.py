@@ -1,7 +1,7 @@
 from peewee import *
 from flask_login import UserMixin
 
-DATABASE = sqliteDatabase('coins.sqlite')
+DATABASE = SqliteDatabase('coins.sqlite')
 
 class User(UserMixin, Model):
 	username = CharField()
