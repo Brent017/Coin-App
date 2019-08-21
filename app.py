@@ -1,5 +1,6 @@
 from flask import Flask, g
 from flask_cors import CORS
+from flask_login import LoginManager # import so users.py can use
 import models
 
 from api.users import user
@@ -7,10 +8,19 @@ from api.users import user
 DEBUG = True
 PORT = 8000
 
-# login_manager = LoginManager()
+login_manager = LoginManager() # set up ability to set up session
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="static")
 
+app.secret_key = 'ALKERANDOM STRING' # encode our cookie
+login_manager.init_app(app) # set up the session on the app
+
+@login_manager.user_loader
+def load_user(userid):
+	try:
+		return models.User.get(models.User.id == userid)
+	except models.DoesNotExist:
+		return None
 
 CORS(user, origins=['httpd://localhost:3000'], supports_credentials=True)
 # CORS(coins, origins=['httpd://localhost:3000'], supports_credentials=True)
