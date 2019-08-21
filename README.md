@@ -7,9 +7,9 @@ Most coin collectors accumulate their collection for the enjoyment and history o
   * User will be able to login using unique username and hashed password.
   * User will be able to search coin database for a given coin.
   * User will be able to add (create) a coin to their personal collection database.
-  * User will be able to add (read) information about a specific coin or their entire collection.
-  * User will be able to add (update) information about a specific coin in their collection.
-  * User will be able to add (delete) a specific coin from their collection.
+  * User will be able to read information about a specific coin or their entire collection.
+  * User will be able to update information about a specific coin in their collection.
+  * User will be able to delete a specific coin from their collection.
 
 ### Stretch:
   * User can upload personal photo or use avatar.
