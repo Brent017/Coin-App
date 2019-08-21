@@ -4,6 +4,7 @@ from flask_login import LoginManager # import so users.py can use
 import models
 
 from api.users import user
+from api.coins import coins
 
 DEBUG = True
 PORT = 8000
@@ -15,7 +16,7 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 app.secret_key = 'ALKERANDOM STRING' # encode our cookie
 login_manager.init_app(app) # set up the session on the app
 
-@login_manager.user_loader
+@login_manager.user_loader # load anything from the session (current_user) - function to define who the current user is
 def load_user(userid):
 	try:
 		return models.User.get(models.User.id == userid)
@@ -23,10 +24,10 @@ def load_user(userid):
 		return None
 
 CORS(user, origins=['httpd://localhost:3000'], supports_credentials=True)
-# CORS(coins, origins=['httpd://localhost:3000'], supports_credentials=True)
+CORS(coins, origins=['httpd://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(user)
-# app.register_blueprint(coins)
+app.register_blueprint(coins)
 
 @app.before_request
 def before_request():

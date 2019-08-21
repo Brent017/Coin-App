@@ -22,7 +22,7 @@ def save_picture(form_picture): # funct to save image as static asset
 	i = Image.open(form_picture) # i is Image class from PIL import Image
 	i.thumbnail(output_size) # set size accepts a tuple with dimensions
 	i.save(file_path_for_avatar) # save path
-	return file_path_for_avatar
+	return picture_name
 
 @user.route('/register', methods=["POST"])
 def register():
@@ -48,12 +48,29 @@ def register():
 		current_user.image = file_picture_path # and the pic so we can have whenever
 
 		user_dict = model_to_dict(user)
-		print(user_dict)
-		print(type(user_dict))
+		# print(user_dict)
+		# print(type(user_dict))
 
 		del user_dict['password'] # remove pw, client doesnt need
 		return jsonify(data=user_dict, status={"code": 201, "message": "Success!"})
 
+@user.route('<id>/coins', methods=["GET"])
+def get_user_coins(id):
+	user = models.User.get_by_id(id)
+	print(user.coins, "coindb")
+
+	# for i in user.coins:
+	# 	print(model_to_dict(i)) # this is every coin
+	# same as above just cleaner, looping over coins of user
+	coins = [model_to_dict(coins) for coins in user.coins]
+
+	def delete_key(item, key): # removes user info from return
+		del item[key]
+		return item
+
+	coins_without_user = [delete_key(coins, 'user') for coins in coins]
+
+	return jsonify(data=coins, status={"code": 201, "message": "Success!"})
 
 
 

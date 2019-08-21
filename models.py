@@ -1,7 +1,7 @@
 from peewee import *
 from flask_login import UserMixin
 
-DATABASE = SqliteDatabase('coins.sqlite')
+DATABASE = SqliteDatabase('coin.sqlite')
 
 class User(UserMixin, Model):
 	username = CharField()
@@ -13,7 +13,6 @@ class User(UserMixin, Model):
 		database = DATABASE
 
 class Coins(Model):
-	userId = CharField()
 	year = CharField()
 	denomination = CharField()
 	mint_mark = CharField()
@@ -24,6 +23,7 @@ class Coins(Model):
 	percent_secondary = CharField()
 	melt_value = CharField()
 	num_value = CharField()
+	user = ForeignKeyField(User, backref='coins')
 
 	class Meta:
 		database = DATABASE
