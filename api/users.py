@@ -39,7 +39,7 @@ def register():
 		return jsonify(data={}, status={"code": 401, "message": "A user with that name or email already exists"})
 	except models.DoesNotExist:
 		payload['password'] = generate_password_hash(payload['password']) # hash pw
-		file_picture_path = save_picture(dict_file['image']) # funct to save static asset
+		file_picture_path = save_picture(dict_file['file']) # funct to save static asset
 		payload['image'] = file_picture_path # add the image property to the payload_dict & save path in db
 		user = models.User.create(**payload) # create the row in the sql table
 		print(type(user)) 

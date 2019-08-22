@@ -10,7 +10,7 @@ coins = Blueprint('coin', 'coin', url_prefix="/coins/v1")
 @coins.route('/', methods=["GET"])
 def get_all_coins():
 	try:
-		coins = [model_to_dict(coins) for coins in models.Coins.select()]
+		coins = [model_to_dict(coins) for coins in models.Coins.select()] #where(models.Coins.id == id)
 		return jsonify(data=coins, status={"code": 200, "message": "Success!"})
 	except models.DoesNotExist:
 		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
