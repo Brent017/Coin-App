@@ -12,6 +12,7 @@ from playhouse.shortcuts import model_to_dict
 
 user = Blueprint('users', 'user', url_prefix='/user')
 
+# Save picture
 def save_picture(form_picture): # funct to save image as static asset
 	random_hex = secrets.token_hex(8) # generate random name so we dont have any conflicts
 	f_name, f_ext = os.path.splitext(form_picture.filename) # grab the file name and ext (jpg) keep same ext and gives access to os filepaths. =>['brentProfile', 'jpg']
@@ -24,6 +25,25 @@ def save_picture(form_picture): # funct to save image as static asset
 	i.save(file_path_for_avatar) # save path
 	return picture_name
 
+# Login
+@user.route('/login', methods=["POST"])
+def login():
+	payload = request.get_json();
+	print(payload, '<-payload in login')
+	try:
+		user = models.User.get(models.User.username == payload['username']);
+		user_dict = model_to_dict(user)
+		if(check_password_hash(user_dict['password'], payload['password'])):
+			del user_dict['password']
+			login_user(user)
+			print(user, '<-user in login')
+			return jsonify(data=user_dict, status={"code": 201, "message": "Success!"})
+		else:
+			return jsonify(data={}, status={"code": 401, "message": "Username or Password incorrect. Please try again or Register now."})
+	except models.DoesNotExist:
+		return jsonify(data={}, status={"code": 401, "message": "Username or Password incorrect. Please try again or Register now."})
+
+# Register
 @user.route('/register', methods=["POST"])
 def register():
 	pay_file = request.files
@@ -72,6 +92,11 @@ def get_user_coins(id):
 
 	return jsonify(data=coins, status={"code": 201, "message": "Success!"})
 
+# Logout
+@user.route('/logout')
+def logout():
+	logout_user()
+	return redirect('/login')
 
 
 
