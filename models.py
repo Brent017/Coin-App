@@ -1,7 +1,8 @@
 from peewee import *
 from flask_login import UserMixin
 
-DATABASE = SqliteDatabase('coin.sqlite')
+# DATABASE = SqliteDatabase('coin.sqlite')
+DATABASE = PostgresqlDatabase('coins')
 
 class User(UserMixin, Model):
 	username = CharField()
@@ -28,10 +29,21 @@ class Coins(Model):
 	class Meta:
 		database = DATABASE
 
+class CoinDB(Model):
+	denomination = FloatField()
+	year = FloatField()
+	mintmark = CharField()
+	description = CharField()
+	total_mintage = CharField()
+	proof_mintage = CharField()
+	comments = CharField()
+
+	class Meta:
+		database = DATABASE
 
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([User, Coins], safe=True)
+	DATABASE.create_tables([User, Coins, CoinDB], safe=True)
 	print("TABLES CREATED")
 	DATABASE.close()
 
