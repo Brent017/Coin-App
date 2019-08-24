@@ -14,16 +14,13 @@ class User(UserMixin, Model):
 		database = DATABASE
 
 class Coins(Model):
-	year = CharField()
-	denomination = CharField()
-	mint_mark = CharField()
-	number_minted = CharField()
-	composition_primary = CharField()
-	percent_primary = CharField()
-	composition_secondary = CharField()
-	percent_secondary = CharField()
-	melt_value = CharField()
-	num_value = CharField()
+	year = CharField(null = True)
+	denomination = CharField(null = True)
+	mint_mark = CharField(null = True)
+	number_minted = CharField(null = True)
+	composition = CharField(null = True)
+	melt_value = CharField(null = True)
+	num_value = CharField(null = True)
 	user = ForeignKeyField(User, backref='coins')
 
 	class Meta:

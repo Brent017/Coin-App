@@ -18,9 +18,12 @@ def get_all_coins():
 # Create route
 @coins.route('/', methods=["POST"])
 def create_coins():
-	print(current_user, 'current_user')
-	payload = request.get_json() # now we can read the json in py (like request.form to get form or request.files to get files)
-	coins = models.Coins.create(**payload, user=1) # update to current_user 
+	user = current_user.get_id()
+	print(user, 'user')
+
+	print(type(user))
+	payload = request.form.to_dict() # now we can read the json in py (like request.form to get form or request.files to get files)
+	coins = models.Coins.create(**payload, user=user)
 
 	coins_dict = model_to_dict(coins)
 
