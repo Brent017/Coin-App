@@ -4,6 +4,18 @@ from flask_login import UserMixin
 # DATABASE = SqliteDatabase('coin.sqlite')
 DATABASE = PostgresqlDatabase('coins')
 
+class CoinDB(Model):
+	denomination = FloatField()
+	year = IntegerField()
+	mintmark = CharField()
+	description = CharField()
+	total_mintage = CharField()
+	proof_mintage = CharField()
+	comments = CharField()
+
+	class Meta:
+		database = DATABASE
+
 class User(UserMixin, Model):
 	username = CharField()
 	email = CharField()
@@ -22,18 +34,7 @@ class Coins(Model):
 	melt_value = CharField(null = True)
 	num_value = CharField(null = True)
 	user = ForeignKeyField(User, backref='coins')
-
-	class Meta:
-		database = DATABASE
-
-class CoinDB(Model):
-	denomination = FloatField()
-	year = FloatField()
-	mintmark = CharField()
-	description = CharField()
-	total_mintage = CharField()
-	proof_mintage = CharField()
-	comments = CharField()
+	coindb = ForeignKeyField(CoinDB, backref='coindb')
 
 	class Meta:
 		database = DATABASE
