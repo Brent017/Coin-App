@@ -18,16 +18,39 @@ def get_all_coins():
 # Create route
 @coins.route('/', methods=["POST"])
 def create_coins():
-	user = current_user.get_id()
-	print(user, 'user')
-
-	print(type(user))
+	user = current_user.get_id() # get user
+	# print(user, 'user')
+	# print(type(user))
+	# get payload and convert to dict
 	payload = request.form.to_dict() # now we can read the json in py (like request.form to get form or request.files to get files)
-	coins = models.Coins.create(**payload, user=user)
+	
+	try:
+		# print('beginning of try')
+		# print('query: ', query)
+		rows_from_coindb = [model_to_dict(row) for row in models.CoinDB.select().where(models.CoinDB.year == payload['year'], models.CoinDB.mintmark == payload['mint_mark'])]
+		# print(query, '<--query')
+		rows_filter_denom = []
+		for row in rows_from_coindb:
+			if row['denomination'] == float(payload['denomination']):
+				rows_filter_denom.append(row)
+		print('rows_filter_denom: ', rows_filter_denom)
+		# loop through results of query
+		for row_filter_denom in rows_filter_denom:
+			payload['coindb'] = row_filter_denom['id']
+			coin_dict = models.Coins.create(**payload, user=user)
 
-	coins_dict = model_to_dict(coins)
+		coin_list = [model_to_dict(coin) for coin in models.Coins.select().where(models.Coins.user == user)]
+		print(coin_list, '<--coin_list')
+		# for each result convert from model to dict, take id and result and add to payload and create each coin with same year, denom and mm but with different coindb_ids
+		# print(payload, '<--payload in create')
+		# print(payload, '<--payload in create')
+		# get all coins
+		# coins = [model_to_dict(coin_list) for coins in models.Coins.select().where(models.Coins.user == user)] #where(models.Coins.id == id)
 
-	return jsonify(data=coins_dict, status={"code": 201, "message": "Success!"})
+		return jsonify(data=coin_list, status={"code": 201, "message": "Success!"})
+	except models.DoesNotExist:
+		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
+
 
 # Show route
 @coins.route('/<id>', methods=["GET"])
