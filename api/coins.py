@@ -7,19 +7,23 @@ from playhouse.shortcuts import model_to_dict # so that we can jsonify model and
 coins = Blueprint('coin', 'coin', url_prefix="/coins/v1")
 
 # Index route
-@coins.route('/', methods=["GET"])
-def get_all_coins():
-	try:
-		coins = [model_to_dict(coins) for coins in models.Coins.select()] #where(models.Coins.id == id)
-		return jsonify(data=coins, status={"code": 200, "message": "Success!"})
-	except models.DoesNotExist:
-		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
+# @coins.route('/<id>', methods=["SHOW"])
+# def get_all_coins():
+# 	print('random string')
+# 	user = current_user.get_id()
+# 	print(user, 'user in index')
+# 	print(models.Coins.user, 'models.Coins.user in get')
+# 	try:
+# 		all_coins = [model_to_dict(coin) for coin in models.Coins.select().where(models.Coins.user == user)] #where(models.Coins.id == id)
+# 		return jsonify(data=all_coins, status={"code": 200, "message": "Success!"})
+# 	except models.DoesNotExist:
+# 		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
 
 # Create route
 @coins.route('/', methods=["POST"])
 def create_coins():
 	user = current_user.get_id() # get user
-	# print(user, 'user')
+	print(user, 'user in create')
 	# print(type(user))
 	# get payload and convert to dict
 	payload = request.form.to_dict() # now we can read the json in py (like request.form to get form or request.files to get files)
@@ -52,23 +56,43 @@ def create_coins():
 		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
 
 
-# Show route
+# index route
 @coins.route('/<id>', methods=["GET"])
+def get_all_coins(id):
+	print('random string')
+	print(id, "id in show")
+	# user = current_user.get_id()
+	# print(user, 'user in index')
+	# print(models.Coins.user, 'models.Coins.user in get')
+	try:
+		all_coins = [model_to_dict(coin) for coin in models.Coins.select().where(models.Coins.user == id)] #where(models.Coins.id == id)
+		return jsonify(data=all_coins, status={"code": 200, "message": "Success!"})
+	except models.DoesNotExist:
+		return jsonify(data={}, status={"code": 401, "message": "Error getting resource"})
+
+# edit route
+@coins.route('/<id>/edit', methods=['GET'])
 def get_one_coin(id):
-	coins = models.Coins.get_by_id(id)
-	return jsonify(data=model_to_dict(coins), status={"code": 200, "message": "Success!"})
+	print('random string in show')
+	coin = [model_to_dict(coin) for coin in models.Coins.select().where(models.Coins.id == id)]
+	return jsonify(data=model_to_dict(coin), status={"code": 200, "message": "Success!"})
 
 # Update route
 @coins.route('/<id>', methods=["PUT"])
 def update_coin(id):
 	payload = request.get_json()
+	del payload['user']
+	del payload['coindb']
+	print('PAYLOAD: ', payload)
 
 	query = models.Coins.update(**payload).where(models.Coins.id == id)
+	print('QUERYERYRYRY: ', query)
 	query.execute()
 
-	updated_coin = models.Coins.get_by_id(id)
+	updated_coin = model_to_dict(models.Coins.get(models.Coins.id == id))
+	print('UPDATED COINTITNINTT: ', model_to_dict(updated_coin))
 
-	return jsonify(data=model_to_dict(updated_coin), status={"code": 200, "message": "Success!"})
+	return jsonify(data=updated_coin, status={"code": 200, "message": "Success!"})
 
 # Delete route
 @coins.route('/<id>', methods=["Delete"])
