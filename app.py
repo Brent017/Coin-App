@@ -1,3 +1,4 @@
+import os
 from flask import Flask, g
 from flask_cors import CORS
 from flask_login import LoginManager # import so users.py can use
@@ -23,8 +24,8 @@ def load_user(userid):
 	except models.DoesNotExist:
 		return None
 
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(coins, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000', 'http://reactaddress.com'], supports_credentials=True)
+CORS(coins, origins=['http://localhost:3000', 'http://reactaddress.com'], supports_credentials=True)
 
 app.register_blueprint(user)
 app.register_blueprint(coins)
@@ -45,6 +46,10 @@ app.route('/')
 
 def index():
 	return 'hi'
+
+if 'ON_HEROKU' in os.environ:
+	print('hitting ')
+	models.initialize()
 
 if __name__ == '__main__':
 	models.initialize()
