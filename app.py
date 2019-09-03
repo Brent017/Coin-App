@@ -25,7 +25,7 @@ def load_user(userid):
 		return None
 
 CORS(user, origins=['http://localhost:3000', 'http://reactaddress.com'], supports_credentials=True)
-CORS(coins, origins=['http://localhost:3000', 'http://reactaddress.com'], supports_credentials=True)
+CORS(coins, origins=['http://localhost:3000', 'http://coin-app-react.herokuapp.com/', 'https://coin-app-react.herokuapp.com/'], supports_credentials=True)
 
 app.register_blueprint(user)
 app.register_blueprint(coins)
