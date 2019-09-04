@@ -41,7 +41,7 @@ class Coins(Model):
 
 	class Meta:
 		database = DATABASE
-
+# test
 def initialize():
 	DATABASE.connect()
 	DATABASE.create_tables([User, Coins, CoinDB], safe=True)
