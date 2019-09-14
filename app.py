@@ -1,4 +1,5 @@
 import os
+from whitenoise import Whitenoise
 from flask import Flask, g
 from flask_cors import CORS
 from flask_login import LoginManager # import so users.py can use
@@ -13,6 +14,7 @@ PORT = 8000
 login_manager = LoginManager() # set up ability to set up session
 
 app = Flask(__name__, static_url_path="", static_folder="static")
+app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.join(os.path.dirname(__file__), 'static'), prefix='static/')
 
 app.secret_key = 'ALKERANDOM STRING' # encode our cookie
 login_manager.init_app(app) # set up the session on the app
