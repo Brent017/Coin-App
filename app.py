@@ -1,6 +1,6 @@
 import os
-from whitenoise import Whitenoise
 from flask import Flask, g
+from whitenoise import WhiteNoise
 from flask_cors import CORS
 from flask_login import LoginManager # import so users.py can use
 import models
@@ -13,7 +13,7 @@ PORT = 8000
 
 login_manager = LoginManager() # set up ability to set up session
 
-app = Flask(__name__, static_url_path="", static_folder="static")
+app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.join(os.path.dirname(__file__), 'static'), prefix='static/')
 
 app.secret_key = 'ALKERANDOM STRING' # encode our cookie
