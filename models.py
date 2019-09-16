@@ -4,8 +4,8 @@ import os
 from playhouse.db_url import connect
 
 # DATABASE = SqliteDatabase('coin.sqlite')
-# DATABASE = PostgresqlDatabase('coins')
-DATABASE = connect(os.environ.get('DATABASE_URL'))
+DATABASE = PostgresqlDatabase('coins')
+# DATABASE = connect(os.environ.get('DATABASE_URL'))
 
 class CoinDB(Model):
 	denomination = FloatField()
